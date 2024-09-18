@@ -1,5 +1,6 @@
 package com.vervyle.lab2.ui
 
+import android.location.Location
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -8,13 +9,14 @@ import com.vervyle.lab2.MapViewModel
 
 @Composable
 fun MapApp(
-    viewModel: MapViewModel,
+    shouldKeepAlive: Boolean,
+    location: Location,
     modifier: Modifier = Modifier,
 ) {
-    val shouldKeepAlive by viewModel.shouldKeepAlive.collectAsState()
 
     YandexMap(
         shouldKeepAlive,
+        location,
         modifier
     )
 }

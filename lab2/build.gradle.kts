@@ -62,6 +62,8 @@ kapt {
 
 dependencies {
     implementation(libs.maps.mobile)
+    implementation(libs.play.services.location)
+
 
     implementation(libs.hilt.android)
     kapt(libs.dagger.hilt.android.compiler)
