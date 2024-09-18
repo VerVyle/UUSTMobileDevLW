@@ -1,10 +1,12 @@
 package com.vervyle.lab2.ui
 
 import android.location.Location
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -12,6 +14,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import com.vervyle.lab2.R
+import com.vervyle.lab2.TAG
 import com.yandex.mapkit.Animation
 import com.yandex.mapkit.geometry.Circle
 import com.yandex.mapkit.geometry.Point
@@ -25,11 +28,6 @@ fun YandexMap(
     location: Location,
     modifier: Modifier = Modifier
 ) {
-    var lastCircle: CircleMapObject? by remember {
-        mutableStateOf(
-            null
-        )
-    }
     AndroidView(
         modifier = modifier.fillMaxSize(),
         factory = { context ->
@@ -37,15 +35,6 @@ fun YandexMap(
                 .from(context)
                 .inflate(R.layout.map_view, null, false)
             val mapView = view.findViewById<MapView>(R.id.mapview)
-            mapView.mapWindow.map.move(
-                CameraPosition(
-                    Point(location.latitude, location.longitude),
-                    11f,
-                    0f,
-                    0f
-                ),
-                Animation(Animation.Type.SMOOTH, 1f)
-            ) { }
             mapView
         },
         update = { view: MapView ->
@@ -57,12 +46,10 @@ fun YandexMap(
                     0f,
                     0f
                 ),
-                Animation(Animation.Type.SMOOTH, 4f)
+                Animation(Animation.Type.SMOOTH, 2f)
             ) { }
-            lastCircle?.let {
-                view.mapWindow.map.mapObjects.remove(it)
-            }
-            lastCircle = view.mapWindow.map.mapObjects.addCircle(
+            view.mapWindow.map.mapObjects.clear()
+            view.mapWindow.map.mapObjects.addCircle(
                 Circle(
                     Point(location.latitude, location.longitude),
                     4f

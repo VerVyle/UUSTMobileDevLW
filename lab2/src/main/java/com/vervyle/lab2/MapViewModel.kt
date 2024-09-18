@@ -18,7 +18,7 @@ class MapViewModel @Inject constructor(
     var shouldKeepAlive = MutableStateFlow(true)
 
     val location = locationClient
-        .getLocationUpdates(1000L)
+        .getLocationUpdates(10000L)
         .stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000L),
